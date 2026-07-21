@@ -68,10 +68,48 @@ Two relation types are extracted:
   identification — it will misattribute quotes in dense back-and-forth
   dialogue with multiple characters in the same window.
 - Raw co-occurrence weight favors entities mentioned constantly regardless
+  of relationship strength — "Hogwarts" and "Gryffindor" rank among the
+  most "connected" entities in the graph purely from mention frequency,
+  not because they have meaningfully close relationships with everyone.
+  A TF-IDF or PMI-based edge weighting would correct for this in future work.
+
+## Data structure
+
+A single `networkx.Graph`: nodes carry `type` (character/place/spell/
+creature), `house`, `species`, `lines_spoken`, and `community` attributes;
+edges carry aggregate `weight` (co-occurrence count) and `books` (how many
+books the pairing appears in). This makes it directly queryable for
+insights (`G.degree(weight="weight")`, `nx.algorithms.community.*`, etc.)
+without a separate database.
+
+## Insights
+
+- **Most connected entities** (weighted degree): Harry Potter, Ron Weasley,
+  and Hermione Granger dominate, as expected — but Hogwarts and Gryffindor
+  (place entities) rank in the top 6, ahead of most named characters,
+  purely by mention frequency (see limitation above).
+- **Most talkative characters**: Harry, Ron, and Hermione lead, but Alastor
+  "Mad-Eye" Moody ranks 5th overall despite appearing substantially in only
+  one of the four books analyzed — a concentrated presence rather than a
+  sustained one.
+- **Surprising insight — community structure vs. Hogwarts Houses**:
+  greedy modularity community detection (run purely on narrative
+  co-occurrence, with no knowledge of House assignments) produces
+  communities with only ~50-59% House purity. Despite how central House
+  identity is to the books' social structure, who characters actually
+  interact with in the text is driven more by shared classes, Quidditch,
+  and plot events than by House lines — the detected social clusters cut
+  across Gryffindor/Slytherin/Ravenclaw/Hufflepuff boundaries far more than
+  a "House-first" reading of the books would suggest.
 
 ## Video Demo
 
 See `demo/demo.mp4` for a walkthrough of the interactive report and the
 community-structure insight.
-  of relationship strength — "Hogwarts" and "Gryffindor" rank among the
-  most "connected" entities in the graph purely from
+
+## Limitations / future work
+
+- Extend to books 5–7 for full-series coverage.
+- Add coreference resolution to catch pronoun references.
+- Normalize edge weights (PMI/TF-IDF) to reduce high-frequency-entity bias.
+- Expand the place/creature gazetteer (currently hand-curated, ~25 entries).
