@@ -10,7 +10,7 @@ HOUSE_COLORS = {
 }
 TYPE_COLORS = {"place": "#2a9d8f", "spell": "#9d4edd", "creature": "#e76f51"}
 
-net = Network(height="850px", width="100%", bgcolor="#111318", font_color="white", notebook=False)
+net = Network(height="100vh", width="100%", bgcolor="#111318", font_color="white", notebook=False)
 net.force_atlas_2based(gravity=-60, spring_length=100)
 
 degree = dict(G.degree(weight="weight"))
