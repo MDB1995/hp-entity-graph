@@ -68,5 +68,10 @@ Two relation types are extracted:
   identification — it will misattribute quotes in dense back-and-forth
   dialogue with multiple characters in the same window.
 - Raw co-occurrence weight favors entities mentioned constantly regardless
+
+## Video Demo
+
+See `demo/demo.mp4` for a walkthrough of the interactive report and the
+community-structure insight.
   of relationship strength — "Hogwarts" and "Gryffindor" rank among the
   most "connected" entities in the graph purely from
